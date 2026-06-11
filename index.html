@@ -458,7 +458,7 @@
             ctx.textAlign = 'left'; 
             ctx.fillStyle = '#00ff88';
             ctx.font = 'bold 18px Arial';
-            ctx.fillText(`PHONG ĐỘ (SCORE): ${score}`, 25, 35);
+            ctx.fillText(`PHONG ĐỘ (SCORE): ${score}`, 30, 35);
 
             ctx.fillStyle = '#fff';
             ctx.font = '14px Arial';
@@ -484,7 +484,7 @@
             cancelAnimationFrame(animationFrameId);
             overlay.style.display = 'block';
 
-            if (score >= 25) {
+            if (score >= 30) {
                 resultContent.innerHTML = `
                     <h2 class="success" style="font-size:1.8rem; margin-bottom:10px;">HÃY GIỮ VỮNG PHONG ĐỘ!</h2>
                     <p style="font-size:1.1rem; margin-bottom:10px;">Điểm tích lũy: <strong>${score}</strong></p>
@@ -494,7 +494,7 @@
                 resultContent.innerHTML = `
                     <h2 class="fail" style="font-size:1.8rem; margin-bottom:10px;">DA BỊ TỔN THƯƠNG RỒI!</h2>
                     <p style="font-size:1.1rem; margin-bottom:10px;">Điểm tích lũy: <strong>${score}</strong></p>
-                    <p style="color:#a4b0be; font-size:0.9rem; line-height:1.5;">Gặp vật thể bay tầm cao (Tia UV/Khói bụi) nhớ đè giữ phím <strong>XUỐNG</strong> hoặc chạm giữ <strong>NỬA DƯỚI</strong> để cúi người nhé Bro. Cần <strong>25 điểm</strong> để nhận quà, cố lên!</p>
+                    <p style="color:#a4b0be; font-size:0.9rem; line-height:1.5;">Gặp vật thể bay tầm cao (Tia UV/Khói bụi) nhớ đè giữ phím <strong>XUỐNG</strong> hoặc chạm giữ <strong>NỬA DƯỚI</strong> để cúi người nhé Bro. Cần <strong>30 điểm</strong> để nhận quà, cố lên!</p>
                 `;
             }
         }
