@@ -519,25 +519,63 @@
             }
         });
 
-        // THAO TÁC CẢM ỨNG TRÊN IPAD/TABLET TẠI BOOTH SỰ KIỆN
+       // =========================================================================
+        // THAO TÁC CẢM ỨNG TRÊN ĐIỆN THOẠI/TABLET TẠI BOOTH SỰ KIỆN (ĐÃ FIX GIỮ CÚI)
+        // =========================================================================
+        let activeTouchId = null;
+
         canvas.addEventListener('touchstart', function(e) {
             e.preventDefault();
             if (gameStatus !== "PLAYING") return;
 
-            const rect = canvas.getBoundingClientRect();
-            const touchY = e.touches[0].clientY - rect.top;
-            
-            if (touchY < canvas.height / 2) {
-                bro.jump();
-            } else {
-                bro.crouch(true);
+            if (activeTouchId === null) {
+                const touch = e.changedTouches[0];
+                activeTouchId = touch.identifier;
+
+                const rect = canvas.getBoundingClientRect();
+                const touchY = touch.clientY - rect.top;
+                
+                if (touchY < canvas.height / 2) {
+                    bro.jump();
+                } else {
+                    bro.crouch(true);
+                }
             }
-        });
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            if (gameStatus !== "PLAYING") return;
+
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === activeTouchId) {
+                    const rect = canvas.getBoundingClientRect();
+                    const touchY = e.touches[i].clientY - rect.top;
+
+                    if (touchY < canvas.height / 2) {
+                        bro.crouch(false);
+                    } else {
+                        bro.crouch(true);
+                    }
+                }
+            }
+        }, { passive: false });
 
         canvas.addEventListener('touchend', function(e) {
             e.preventDefault();
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                if (e.changedTouches[i].identifier === activeTouchId) {
+                    bro.crouch(false);
+                    activeTouchId = null;
+                }
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchcancel', function(e) {
+            e.preventDefault();
             bro.crouch(false);
-        });
+            activeTouchId = null;
+        }, { passive: false });
 
         // Vẽ màn hình chờ ban đầu
         function drawStartScreen() {
