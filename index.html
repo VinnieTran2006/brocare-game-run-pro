@@ -141,7 +141,7 @@
 
         let gameStatus = "START"; 
         let score = 0;
-        let gameSpeed = 5;
+        let gameSpeed = 6; // Đã chỉnh tốc độ ban đầu lên 6
         let animationFrameId;
         const groundY = 210; 
 
@@ -384,7 +384,7 @@
             startBtn.style.display = 'none';
             gameStatus = "PLAYING";
             score = 0;
-            gameSpeed = 5.5;
+            gameSpeed = 6.0; // Tốc độ bắt đầu chuẩn 6.0 theo yêu cầu
             obstacles = [];
             bro.initPosition();
             
@@ -420,8 +420,9 @@
                 if (obstacles[i].x + obstacles[i].width < bro.x && !obstacles[i].passed) {
                     score++;
                     obstacles[i].passed = true;
+                    // Cứ mỗi 5 điểm, tốc độ tăng thêm hẳn 1.0 đơn vị (6 -> 7 -> 8 -> 9 -> 10...)
                     if (score % 5 === 0) {
-                        gameSpeed += 0.6; 
+                        gameSpeed += 1.0; 
                     }
                 }
 
