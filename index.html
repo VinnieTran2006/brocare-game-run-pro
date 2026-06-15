@@ -115,7 +115,7 @@
 
     <div id="game-container">
         <h1>BRO-CARE RUN PRO</h1>
-        <p class="subtitle">NÉ MỤN, LƯỚT UV - NÂNG CẤP PHONG ĐỘ NGAY TẠI BOOTH</p>
+        <p class="subtitle">NÉ MỤN, LƯỚT UV - ĐẠT TỪ <span style="color: #00ff88; font-weight: bold; text-shadow: 0 0 8px rgba(0,255,136,0.5);">30 ĐIỂM</span> ĐỂ NHẬN QUÀ NGAY TẠI BOOTH</p>
 
         <canvas id="gameCanvas" width="650" height="250"></canvas>
 
@@ -141,11 +141,11 @@
 
         let gameStatus = "START"; 
         let score = 0;
-        let gameSpeed = 6; // Đã chỉnh tốc độ ban đầu lên 6
+        let gameSpeed = 6; 
         let animationFrameId;
         const groundY = 210; 
 
-        // Đối tượng nhân vật chính (Bro được nâng cấp đồ họa)
+        // Đối tượng nhân vật chính
         const bro = {
             x: 60,
             y: 0, 
@@ -172,15 +172,11 @@
 
             draw() {
                 ctx.save();
-                
-                // Hiệu ứng đổ bóng Neon phát sáng cho cơ thể
                 ctx.shadowBlur = 8;
                 ctx.shadowColor = '#00f2fe';
 
                 if (!this.isCrouching) {
-                    // ================= TRẠNG THÁI CHẠY / NHẢY (NÂNG CẤP) =================
-                    
-                    // 1. Tóc vuốt dựng cool ngầu phía sau đầu
+                    // Tóc
                     ctx.fillStyle = '#111';
                     ctx.beginPath();
                     ctx.moveTo(this.x + 4, this.y - 16);
@@ -190,17 +186,17 @@
                     ctx.lineTo(this.x + 4, this.y);
                     ctx.fill();
 
-                    // 2. Khuôn mặt góc cạnh (Màu da)
+                    // Khuôn mặt
                     ctx.fillStyle = '#ffd2bd'; 
                     ctx.fillRect(this.x + 8, this.y - 14, 15, 14);
 
-                    // 3. Kính mát thể thao tương lai ánh xanh
+                    // Kính mát
                     ctx.fillStyle = '#00f2fe';
                     ctx.fillRect(this.x + 14, this.y - 10, 10, 4);
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(this.x + 16, this.y - 10, 3, 1); // Điểm bóng kính lấp lánh
+                    ctx.fillRect(this.x + 16, this.y - 10, 3, 1);
 
-                    // 4. Áo thun Gym ôm sát Body đô con (Đổ màu Gradient cực chất)
+                    // Áo Body
                     let bodyGrad = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + 32);
                     bodyGrad.addColorStop(0, '#0066ff');
                     bodyGrad.addColorStop(1, '#00f2fe');
@@ -213,37 +209,31 @@
                     }
                     ctx.fill();
 
-                    // 5. Quần Short thể thao năng động
+                    // Quần Short
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(this.x, this.y + 32, this.width, 12);
-                    ctx.fillStyle = '#ff4757'; // Đường viền quần thể thao đỏ rực
+                    ctx.fillStyle = '#ff4757';
                     ctx.fillRect(this.x, this.y + 42, this.width, 2);
 
-                    // 6. Đôi chân đang chạy liên tục (Xử lý chuyển động luân phiên)
+                    // Chân chạy
                     ctx.fillStyle = '#ffd2bd'; 
                     let legCycle = Math.floor(Date.now() / 80) % 2 === 0;
 
                     if (legCycle || this.isJumping) {
-                        // Thế chân chạy 1
                         ctx.fillRect(this.x + 4, this.y + 44, 6, 8);
                         ctx.fillRect(this.x + 18, this.y + 44, 6, 5);
-                        // Giày Sneaker dạ quang
                         ctx.fillStyle = '#00ff88';
                         ctx.fillRect(this.x + 1, this.y + 52, 9, 4);
                         ctx.fillRect(this.x + 18, this.y + 49, 8, 4);
                     } else {
-                        // Thế chân chạy 2
                         ctx.fillRect(this.x + 4, this.y + 44, 6, 5);
                         ctx.fillRect(this.x + 18, this.y + 44, 6, 8);
-                        // Giày Sneaker dạ quang
                         ctx.fillStyle = '#00ff88';
                         ctx.fillRect(this.x + 4, this.y + 49, 8, 4);
                         ctx.fillRect(this.x + 16, this.y + 52, 9, 4);
                     }
                 } else {
-                    // ================= TRẠNG THÁI CÚI NGƯỜI SLIDING (NÂNG CẤP) =================
-                    
-                    // Thân người cuộn lại thành khối lướt tốc độ cao
+                    // Trạng thái cúi
                     let slideGrad = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
                     slideGrad.addColorStop(0, '#0052d4');
                     slideGrad.addColorStop(1, '#4364f7');
@@ -256,17 +246,14 @@
                     }
                     ctx.fill();
 
-                    // Đầu nghiêng chúi hẳn về phía trước né tia độc hại
                     ctx.fillStyle = '#ffd2bd';
                     ctx.fillRect(this.x + 30, this.y + 4, 14, 14);
-                    ctx.fillStyle = '#111'; // Tóc
+                    ctx.fillStyle = '#111';
                     ctx.fillRect(this.x + 28, this.y, 12, 4);
                     
-                    // Kính thể thao hướng thẳng về phía trước hành trình
                     ctx.fillStyle = '#00f2fe';
                     ctx.fillRect(this.x + 38, this.y + 6, 7, 4);
 
-                    // Hiệu ứng tia gió lướt (Speed lines) xé gió phía sau lưng
                     ctx.strokeStyle = 'rgba(0, 242, 254, 0.5)';
                     ctx.lineWidth = 2;
                     ctx.beginPath();
@@ -330,7 +317,7 @@
                 } else {
                     this.width = 35 + Math.random() * 10;
                     this.height = 35;
-                    this.y = groundY - 75; // Điều chỉnh độ cao chuẩn xác để buộc phải cúi né
+                    this.y = groundY - 75; 
                     
                     const airTypes = ["TIA UV ", "KHÓI BỤI", "NẮNG 39°C"];
                     this.text = airTypes[Math.floor(Math.random() * airTypes.length)];
@@ -340,11 +327,10 @@
             draw() {
                 ctx.save();
                 if (this.positionType === "GROUND") {
-                    // Đồ họa Mụn bọc: Dạng ngọn núi viêm mủ u nần sinh động độc đáo
                     let grad = ctx.createRadialGradient(this.x + this.width/2, this.y + this.height, 2, this.x + this.width/2, this.y + this.height, this.width);
-                    grad.addColorStop(0, '#ffffff'); // Đầu mủ trắng nguy hiểm
-                    grad.addColorStop(0.2, '#ff4757'); // Vùng viêm sưng đỏ rực
-                    grad.addColorStop(1, '#741b24'); // Chân mụn bám sâu
+                    grad.addColorStop(0, '#ffffff'); 
+                    grad.addColorStop(0.2, '#ff4757'); 
+                    grad.addColorStop(1, '#741b24'); 
                     ctx.fillStyle = grad;
                     
                     ctx.beginPath();
@@ -352,7 +338,6 @@
                     ctx.quadraticCurveTo(this.x + this.width/2, this.y, this.x + this.width, groundY);
                     ctx.fill();
                 } else {
-                    // Đồ họa Tia UV/Nắng nóng: Quả cầu lửa Plasma phát sáng rực rỡ
                     ctx.shadowBlur = 15;
                     ctx.shadowColor = '#ffa500';
                     let sunGrad = ctx.createRadialGradient(this.x + this.width/2, this.y + this.height/2, 2, this.x + this.width/2, this.y + this.height/2, this.width/2);
@@ -367,7 +352,6 @@
                 }
                 ctx.restore();
 
-                // Chữ hiển thị tên vật thể trên đầu chướng ngại vật
                 ctx.textAlign = 'center'; 
                 ctx.fillStyle = '#a4b0be';
                 ctx.font = 'bold 10px Arial';
@@ -384,7 +368,7 @@
             startBtn.style.display = 'none';
             gameStatus = "PLAYING";
             score = 0;
-            gameSpeed = 6.0; // Tốc độ bắt đầu chuẩn 6.0 theo yêu cầu
+            gameSpeed = 6.0; 
             obstacles = [];
             bro.initPosition();
             
@@ -406,7 +390,6 @@
                 obstacles[i].update();
                 obstacles[i].draw();
 
-                // Kiểm tra va chạm hộp giới hạn chuẩn xác từng Pixel
                 if (
                     bro.x < obstacles[i].x + obstacles[i].width &&
                     bro.x + bro.width > obstacles[i].x &&
@@ -420,7 +403,6 @@
                 if (obstacles[i].x + obstacles[i].width < bro.x && !obstacles[i].passed) {
                     score++;
                     obstacles[i].passed = true;
-                    // Cứ mỗi 5 điểm, tốc độ tăng thêm hẳn 1.0 đơn vị (6 -> 7 -> 8 -> 9 -> 10...)
                     if (score % 5 === 0) {
                         gameSpeed += 1.0; 
                     }
@@ -434,7 +416,6 @@
 
         function drawEnvironment() {
             ctx.save();
-            // Thiết kế đường chạy Neon ảo diệu (Cyberpunk style)
             ctx.strokeStyle = '#00f2fe';
             ctx.lineWidth = 4;
             ctx.shadowBlur = 12;
@@ -444,7 +425,6 @@
             ctx.lineTo(canvas.width, groundY);
             ctx.stroke();
 
-            // Hiệu ứng đường lưới 3D chéo sâu mờ dưới mặt đất cực sinh động
             ctx.strokeStyle = 'rgba(0, 242, 254, 0.15)';
             ctx.lineWidth = 1;
             ctx.shadowBlur = 0;
@@ -500,7 +480,6 @@
             }
         }
 
-        // BÀN PHÍM LAPTOP/PC
         window.addEventListener('keydown', function(e) {
             if (gameStatus !== "PLAYING") return;
             
@@ -520,9 +499,6 @@
             }
         });
 
-       // =========================================================================
-        // THAO TÁC CẢM ỨNG TRÊN ĐIỆN THOẠI/TABLET TẠI BOOTH SỰ KIỆN (ĐÃ FIX GIỮ CÚI)
-        // =========================================================================
         let activeTouchId = null;
 
         canvas.addEventListener('touchstart', function(e) {
@@ -578,12 +554,16 @@
             activeTouchId = null;
         }, { passive: false });
 
-        // Vẽ màn hình chờ ban đầu
+        // Cập nhật hàm vẽ màn hình chờ hiển thị điều kiện nhận quà rõ ràng
         function drawStartScreen() {
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 15px Arial';
+            ctx.font = 'bold 14px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText("ẤN NÚT BÊN DƯỚI ĐỂ BẮT ĐẦU ĐƯỜNG ĐUA PHONG ĐỘ", canvas.width / 2, canvas.height / 2);
+            ctx.fillText("ẤN NÚT BÊN DƯỚI ĐỂ BẮT ĐẦU ĐƯỜNG ĐUA PHONG ĐỘ", canvas.width / 2, canvas.height / 2 - 20);
+
+            ctx.fillStyle = '#00ff88';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText("MỤC TIÊU: ĐẠT TỪ 30 ĐIỂM TRỞ LÊN ĐỂ NHẬN QUÀ!", canvas.width / 2, canvas.height / 2 + 15);
         }
         drawStartScreen();
     </script>
